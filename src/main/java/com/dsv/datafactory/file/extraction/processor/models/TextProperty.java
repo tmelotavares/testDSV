@@ -12,7 +12,7 @@ public class TextProperty {
         this.detectedBreak = detectedBreak;
         this.detectedLanguages = detectedLanguages;
     }
-
+    //FIXME: Why use getters and setters when you have lombok installed? Must be replaced with @Data
     public void setDetectedBreak(DetectedBreak detectedBreak) {
         this.detectedBreak = detectedBreak;
     }

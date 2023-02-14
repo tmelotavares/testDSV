@@ -5,7 +5,7 @@ public class GoogleSymbol {
     private BoundingPoly boundingBox;
     private String text;
     private double confidence;
-
+    //FIXME: Why use getters and setters when you have lombok installed? Must be replaced with @Data
     public void setProperty(TextProperty property) {
         this.property = property;
     }

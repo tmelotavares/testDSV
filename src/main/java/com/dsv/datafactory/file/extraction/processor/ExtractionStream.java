@@ -13,9 +13,9 @@ import org.apache.kafka.streams.KeyValue;
 
 public class ExtractionStream {
 
-	private Config config;
+	private final Config config;
 
-	private ExtractContent extractDocument;
+	private final ExtractContent extractDocument;
 
 	@Inject
 	public ExtractionStream(Config config, ExtractContent extractDocument) {

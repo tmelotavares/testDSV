@@ -9,7 +9,7 @@ public class GoogleBlock {
     private ArrayList<GoogleParagraph> paragraphs;
     private String blockType;
     private double confidence;
-
+    //FIXME: Why use getters and setters when you have lombok installed? Must be replaced with @Data
     public void setConfidence(double confidence) {
         this.confidence = confidence;
     }

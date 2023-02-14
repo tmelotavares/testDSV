@@ -11,6 +11,7 @@ import java.io.Serializable;
 @RequiredArgsConstructor
 public class ErrorMessage implements Serializable
 {
+    //FIXME: Could be replaced with @Data
     @Getter @Setter @NonNull private String topicKey;
     @Getter @Setter @NonNull private MetaData topicMessage;
     @Getter @Setter @NonNull private Throwable exception;

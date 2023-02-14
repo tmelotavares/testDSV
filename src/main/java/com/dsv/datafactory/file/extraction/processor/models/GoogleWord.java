@@ -7,7 +7,7 @@ public class GoogleWord {
     private BoundingPoly boundingBox;
     private ArrayList<GoogleSymbol> symbols;
     private double confidence;
-
+    //FIXME: Why use getters and setters when you have lombok installed? Must be replaced with @Data
     public void setConfidence(double confidence) {
         this.confidence = confidence;
     }

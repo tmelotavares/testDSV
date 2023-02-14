@@ -15,8 +15,8 @@ import java.util.ArrayList;
 public class ReadImage {
 
 
-    private GoogleOcrP googleOcrP;
-    private ExtractLines lineExtractor;
+    private final GoogleOcrP googleOcrP;
+    private final ExtractLines lineExtractor;
 
     @Inject
     public ReadImage(GoogleOcrP ocr, ExtractLines extractLines)

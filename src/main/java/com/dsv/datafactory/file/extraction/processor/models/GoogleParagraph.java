@@ -7,7 +7,7 @@ public class GoogleParagraph {
     private BoundingPoly boundingBox;
     private ArrayList<GoogleWord> words;
     private double confidence;
-
+    //FIXME: Why use getters and setters when you have lombok installed? Must be replaced with @Data
     public void setProperty(TextProperty property) {
         this.property = property;
     }

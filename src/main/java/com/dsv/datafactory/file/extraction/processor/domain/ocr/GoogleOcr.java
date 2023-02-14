@@ -40,6 +40,7 @@ public class GoogleOcr {
         document.setPages(extractPages(listOfPathImgs,documentKey));
         document.setKey(documentKey);
         }
+        //FIXME: Must be a better way to handle this exception. Never use Exception as a catch-all.
         catch (Exception e) {
             // Log error (since IOException cannot be thrown by a Cloud Function)
             logger.error("Error in Document generation" + e.getMessage(), e);}
@@ -55,6 +56,7 @@ public class GoogleOcr {
 
     public com.dsv.datafactory.model.Page extractPage(String pathToImg, Integer pageNumber, String pageKey) throws IOException {
         try {
+            //FIXME: Must be a static import
             com.dsv.datafactory.model.Page page = new com.dsv.datafactory.model.Page();
             page.setPageNumber(pageNumber);
             page.setPageKey(pageKey);
@@ -116,7 +118,7 @@ public class GoogleOcr {
         lines.add(line);
         return lines;
     }
-
+    //FIXME: if the method needs comments, it is not clear enough
     /**
      Checking the page rotation based on the distribution of words rotation
      **/
@@ -131,7 +133,7 @@ public class GoogleOcr {
         }
         return maxRotation*90;
     }
-
+    //FIXME: if the method needs comments, it is not clear enough
     /**
      Checking the page rotation based on the distribution of words rotation
      **/
@@ -149,7 +151,7 @@ public class GoogleOcr {
         }
 
     }
-
+    //FIXME: if the method needs comments, it is not clear enough
     /**
         Transpose word coordinates sot that it reflect 0deg orientation of page
      */
@@ -186,7 +188,7 @@ public class GoogleOcr {
         word.setBoundingBox(new BoundingBox(x1, x2, y1, y2));
         word.setRotation(word.getRotation() - rotation);
     }
-
+    //FIXME: if the method needs comments, it is not clear enough
     /**
         Get Min and Max X/Y coordinates from the bounginPoly for a word.
      **/
@@ -208,10 +210,9 @@ public class GoogleOcr {
 
         if(minX<0) minX = 0;
         if(minY<0) minY = 0;
-        int[] result = {minX, minY, maxX, maxY};
-        return result;
+        return new int[] {minX, minY, maxX, maxY};
     }
-
+    //FIXME: if the method needs comments, it is not clear enough
     /**
      Normalizing the bounding box coordinates.
      (making sure that the bounding box is a rectangle)
@@ -232,7 +233,7 @@ public class GoogleOcr {
 
         return new Vertices(resX, resY);
     }
-
+    //FIXME: if the method needs comments, it is not clear enough
     /**
      Check the words rotation based on the order of boundingBox vertices in the response.
      More info about the algorithm in google vision api documentation.

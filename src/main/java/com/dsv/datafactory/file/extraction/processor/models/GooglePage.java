@@ -8,7 +8,7 @@ public class GooglePage {
     private ArrayList<GoogleBlock> blocks;
     private double confidence;
     private TextProperty textProperty;
-
+    //FIXME: Why use getters and setters when you have lombok installed? Must be replaced with @Data
     public void setConfidence(double confidence) {
         this.confidence = confidence;
     }

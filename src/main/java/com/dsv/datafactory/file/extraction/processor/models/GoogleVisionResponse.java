@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class GoogleVisionResponse {
     private ArrayList<EntityAnnotation> textAnnotations = new ArrayList<>();
     private TextAnnotation fullTextAnnotation;
-
+    //FIXME: Why use getters and setters when you have lombok installed? Must be replaced with @Data
     public void setFullTextAnnotation(TextAnnotation fullTextAnnotation) {
         this.fullTextAnnotation = fullTextAnnotation;
     }

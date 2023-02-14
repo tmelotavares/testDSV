@@ -4,15 +4,15 @@ public class DetectedBreak {
     private String type;
     private int typeValue;
     private boolean isPrefix;
-
+    //FIXME: Lombok @NoArgsConstructor
     public DetectedBreak(){}
-
+    //FIXME: Lombok @AllArgsConstructor
     public DetectedBreak(String type, int typeValue, boolean isPrefix){
         this.type = type;
         this.typeValue = typeValue;
         this.isPrefix = isPrefix;
     }
-
+    //FIXME: Why use getters and setters when you have lombok installed? Must be replaced with @Data
     public String getType() {
         return type;
     }

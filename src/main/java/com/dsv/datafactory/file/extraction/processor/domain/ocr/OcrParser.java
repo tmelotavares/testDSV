@@ -27,7 +27,7 @@ public class OcrParser {
 
     public ArrayList<EntityAnnotation> parseTextAnnotations(List<com.google.cloud.vision.v1.EntityAnnotation> rawTextAnnotations){
         ArrayList<EntityAnnotation> parsedEntities = new ArrayList<>();
-
+        //FIXME: Must be a static import
         for(com.google.cloud.vision.v1.EntityAnnotation rawEntity: rawTextAnnotations){
             parsedEntities.add(parseEntityAnnotation(rawEntity));
         }
@@ -84,6 +84,7 @@ public class OcrParser {
     public TextProperty parseTextProperty(com.google.cloud.vision.v1.TextAnnotation.TextProperty rawTextProperty){
         TextProperty property = new TextProperty();
         ArrayList<DetectedLanguage> detectedLanguages= new ArrayList<>();
+        //FIXME: Must be a static import
         com.google.cloud.vision.v1.TextAnnotation.DetectedBreak rawBreak = rawTextProperty.getDetectedBreak();
         DetectedBreak detectedBreak = new DetectedBreak(rawBreak.getType().name(), rawBreak.getTypeValue(), rawBreak.getIsPrefix());
         property.setDetectedBreak(detectedBreak);

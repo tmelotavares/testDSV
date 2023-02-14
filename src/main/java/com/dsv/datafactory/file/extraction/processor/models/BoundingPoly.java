@@ -8,7 +8,7 @@ public class BoundingPoly {
     private ArrayList<Vertices> vertices;
     private ArrayList<NormalizedVertices> normalizedVertices;
 
-
+    //FIXME: Why use getters and setters when you have lombok installed? Must be replaced with @Data
     public void setVertices(ArrayList<Vertices> vertices) {
         this.vertices = vertices;
     }

@@ -33,8 +33,8 @@ public class GoogleOcrP {
 
     private final ECSLogger logger = ECSLoggerProvider.getLogger(GoogleOcr.class.getName());
     Feature feature = Feature.newBuilder().setType(Feature.Type.DOCUMENT_TEXT_DETECTION).build() ;
-    private Boolean runGVInPararell;
-    private int gvThreshold = 15;
+    private final Boolean runGVInPararell;
+
     @Inject
     public GoogleOcrP (Config config){
         this.runGVInPararell = config.runGVInPararell.equals("true");
@@ -65,6 +65,7 @@ public class GoogleOcrP {
 
     public List<AnnotateImageResponse> extractFullDocumentResponse(List<AnnotateImageRequest>requests) throws IOException {
         List<AnnotateImageResponse> responses;
+        int gvThreshold = 15;
         if (this.runGVInPararell){
             logger.info("Running GV calls in parallel");
             responses = requests.parallelStream().map(x -> {
@@ -75,9 +76,9 @@ public class GoogleOcrP {
                 }return null;
             }).filter(Objects::nonNull).collect(Collectors.toCollection(ArrayList::new));
         }
-        else if (requests.size() >= this.gvThreshold) {
-            logger.info("Chunking requests list to threshold size " + this.gvThreshold + "Original size of requests was "+ requests.size());
-            responses= Lists.partition(requests, this.gvThreshold).parallelStream().map(x -> {
+        else if (requests.size() >= gvThreshold) {
+            logger.info("Chunking requests list to threshold size " + gvThreshold + "Original size of requests was "+ requests.size());
+            responses= Lists.partition(requests, gvThreshold).parallelStream().map(x -> {
                 try {
                     return retrieveAnnotatedImageResponseAll(x);
                 } catch (Exception e) {
@@ -127,8 +128,7 @@ public class GoogleOcrP {
     }
 
     public ArrayList<Page> generatePagesFromResponses (List<AnnotateImageResponse> responses) {
-        ArrayList<Page> pages = responses.parallelStream().map(this::extractPage).collect(Collectors.toCollection(ArrayList::new));
-          return pages;
+        return responses.parallelStream().map(this::extractPage).collect(Collectors.toCollection(ArrayList::new));
     }
 
     public com.dsv.datafactory.model.Page extractPage(AnnotateImageResponse response){
@@ -157,7 +157,7 @@ public class GoogleOcrP {
         line.setWords(allWords);
         return new ArrayList<>(Collections.singletonList(line));
     }
-
+    //FIXME: if the method needs comments, it is not clear enough
     /**
      Checking the page rotation based on the distribution of words rotation
      **/
@@ -170,7 +170,7 @@ public class GoogleOcrP {
         }
         return maxRotation*90;
     }
-
+    //FIXME: if the method needs comments, it is not clear enough
     /**
      Checking the page rotation based on the distribution of words rotation
      **/
@@ -184,7 +184,7 @@ public class GoogleOcrP {
         }
         page.getLines().get(0).getWords().parallelStream().forEach(x-> correctWordCoordinates(x,page.getRotation(),page.getHeight(),page.getWidth()));
     }
-
+    //FIXME: if the method needs comments, it is not clear enough
     /**
      Transpose word coordinates sot that it reflect 0deg orientation of page
      */
@@ -221,7 +221,7 @@ public class GoogleOcrP {
         word.setBoundingBox(new BoundingBox(x1, x2, y1, y2));
         word.setRotation(word.getRotation() - rotation);
     }
-
+    //FIXME: if the method needs comments, it is not clear enough
     /**
      Get Min and Max X/Y coordinates from the bounginPoly for a word.
      **/
@@ -243,14 +243,14 @@ public class GoogleOcrP {
 
         if(minX<0) minX = 0;
         if(minY<0) minY = 0;
-        int[] result = {minX, minY, maxX, maxY};
-        return result;
+        return new int[] {minX, minY, maxX, maxY};
     }
 
     /**
      Normalizing the bounding box coordinates.
      (making sure that the bounding box is a rectangle)
      **/
+    //FIXME: if the method needs comments, it is not clear enough
     public Vertices createWordVertice(Vertices vertex, int[] minMaxCoordinates){
         int minX = minMaxCoordinates[0];
         int maxX = minMaxCoordinates[2];
@@ -285,6 +285,7 @@ public class GoogleOcrP {
      Check the words rotation based on the order of boundingBox vertices in the response.
      More info about the algorithm in google vision api documentation.
      **/
+    //FIXME: if the method needs comments, it is not clear enough
     public int getWordsRotation(com.dsv.datafactory.model.Word word, int[] minMaxCoordinates){
         int minX = minMaxCoordinates[0];
         int maxX = minMaxCoordinates[2];
