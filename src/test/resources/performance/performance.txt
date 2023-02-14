@@ -1,0 +1,131 @@
+ Run 1:
+
+------------------------With bulk only gv response time ------------------------:
+ Average time taken for : large_1  11568
+ Average time taken for : large_2  6174
+ Average time taken for : test_shipment_107  6844
+ Average time taken for : test_shipment_180  7376
+ Average time taken for : very_large  18725
+ Average time taken all files 10137
+
+
+ ------------------- Not bulk but pararell  ------------------------------
+ Average time taken for : large_1  9519
+ Average time taken for : large_2  5665
+ Average time taken for : test_shipment_107  5582
+ Average time taken for : test_shipment_180  6737
+ Average time taken for : very_large  13427
+ Average time taken all files 8186
+
+ ------------------------Without bulk sending only gv response time ------------------------
+Time taken for 00c2393325a10e2e09e3fd0e2322834cb6aa6207233248827f5aa596a497c7840.png 4462
+Time taken for 00c2393325a10e2e09e3fd0e2322834cb6aa6207233248827f5aa596a497c7841.png 6040
+Time taken for 00c2393325a10e2e09e3fd0e2322834cb6aa6207233248827f5aa596a497c7842.png 1594
+Average time taken for : large_1 total 12096
+Average time taken for : large_1 per img 4032
+Time taken for 6a0316eb15d5e5bc8b7d4d5930e9dda4dbcd6df1657d26b8b2e601e2f5227ee00.png 2084
+Time taken for 6a0316eb15d5e5bc8b7d4d5930e9dda4dbcd6df1657d26b8b2e601e2f5227ee01.png 1640
+Time taken for 6a0316eb15d5e5bc8b7d4d5930e9dda4dbcd6df1657d26b8b2e601e2f5227ee02.png 2154
+Time taken for 6a0316eb15d5e5bc8b7d4d5930e9dda4dbcd6df1657d26b8b2e601e2f5227ee03.png 1939
+Time taken for 6a0316eb15d5e5bc8b7d4d5930e9dda4dbcd6df1657d26b8b2e601e2f5227ee04.png 1776
+Time taken for 6a0316eb15d5e5bc8b7d4d5930e9dda4dbcd6df1657d26b8b2e601e2f5227ee05.png 1878
+Time taken for 6a0316eb15d5e5bc8b7d4d5930e9dda4dbcd6df1657d26b8b2e601e2f5227ee06.png 2114
+Time taken for 6a0316eb15d5e5bc8b7d4d5930e9dda4dbcd6df1657d26b8b2e601e2f5227ee07.png 1884
+Average time taken for : large_2 total 15469
+Average time taken for : large_2 per img 1933
+Time taken for test_shipment_1070.png 1701
+Time taken for test_shipment_1071.png 4683
+Time taken for test_shipment_1072.png 1583
+Time taken for test_shipment_1073.png 1328
+Average time taken for : test_shipment_107 total 9295
+Average time taken for : test_shipment_107 per img 2323
+Time taken for test_shipment_1800.png 1559
+Time taken for test_shipment_1801.png 4547
+Time taken for test_shipment_1802.png 4805
+Average time taken for : test_shipment_180 total 10911
+Average time taken for : test_shipment_180 per img 3637
+Time taken for 00c2393325a10e2e09e3fd0e2322834cb6aa6207233248827f5aa596a497c7840.png 2105
+Time taken for 00c2393325a10e2e09e3fd0e2322834cb6aa6207233248827f5aa596a497c7841.png 7363
+Time taken for 00c2393325a10e2e09e3fd0e2322834cb6aa6207233248827f5aa596a497c7842.png 1484
+Time taken for 6a0316eb15d5e5bc8b7d4d5930e9dda4dbcd6df1657d26b8b2e601e2f5227ee00.png 2023
+Time taken for 6a0316eb15d5e5bc8b7d4d5930e9dda4dbcd6df1657d26b8b2e601e2f5227ee01.png 1915
+Time taken for 6a0316eb15d5e5bc8b7d4d5930e9dda4dbcd6df1657d26b8b2e601e2f5227ee02.png 2834
+Time taken for 6a0316eb15d5e5bc8b7d4d5930e9dda4dbcd6df1657d26b8b2e601e2f5227ee03.png 1630
+Time taken for 6a0316eb15d5e5bc8b7d4d5930e9dda4dbcd6df1657d26b8b2e601e2f5227ee04.png 1981
+Time taken for 6a0316eb15d5e5bc8b7d4d5930e9dda4dbcd6df1657d26b8b2e601e2f5227ee05.png 1888
+Time taken for 6a0316eb15d5e5bc8b7d4d5930e9dda4dbcd6df1657d26b8b2e601e2f5227ee06.png 2732
+Time taken for 6a0316eb15d5e5bc8b7d4d5930e9dda4dbcd6df1657d26b8b2e601e2f5227ee07.png 1901
+Time taken for test_shipment_1800.png 1612
+Time taken for test_shipment_1801.png 4501
+Time taken for test_shipment_1802.png 4572
+Average time taken for : very_large total 38541
+Average time taken for : very_large per img 2752
+
+Average time taken all files: 17262
+
+
+------------------------ Performance normal gv no bulk entire class called ------------------------
+Num Words 5179
+Time taken to process large_1  51394
+5134
+
+Num Words 2227
+Time taken to process large_2  65458
+364
+
+Num Words 3775
+Time taken to process test_shipment_107  41928
+1910
+
+Num Words 6549
+Time taken to process test_shipment_180  53579
+2689
+
+Num Words 13955
+Time taken to process very_large  167590
+6868
+
+Average jenks processing time 3393
+Average gv processing time 75989
+Average words 6337
+
+------------------------ Performance refac gv with bulk and p entire class called ------------------------
+
+Num Words 5179
+Time taken to process large_1  11646
+5000
+Num Words 2227
+Time taken to process large_2  6605
+342
+Num Words 3775
+Time taken to process test_shipment_107  6240
+1836
+Num Words 6549
+Time taken to process test_shipment_180  8015
+2630
+Num Words 13955
+Time taken to process very_large  19900
+7094
+Average jenks processing time 3380
+Average gv processing time 10481
+Average words 6337
+------------------------Run 2 after further refactoring------------------------
+Num Words 5179
+Time taken to process large_1  11133
+4800
+Num Words 2227
+Time taken to process large_2  6563
+332
+Num Words 3775
+Time taken to process test_shipment_107  6828
+1876
+Num Words 6549
+Time taken to process test_shipment_180  7148
+2649
+Num Words 13955
+Time taken to process very_large  18141
+6905
+Average jenks processing time 3312
+Average gv processing time 9962
+Average words 6337
+

@@ -1,0 +1,171 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Values.pipelinedata.appName }}
+  name: {{ .Values.pipelinedata.appName }}
+spec:
+  progressDeadlineSeconds: 600
+  replicas: {{ .Values.replicaCount }}
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: {{ .Values.pipelinedata.appName }}
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: {{ .Values.pipelinedata.appName }}
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - {{ .Values.pipelinedata.appName }}
+                topologyKey: kubernetes.io/hostname
+      containers:
+        - name: {{ .Values.pipelinedata.appName }}
+          image: {{ .Values.pipelinedata.image }}
+          env:
+            - name: LOG_APP_NAME_SDD
+              value: {{ .Values.logAppNameSdd }}
+            - name: LOG_APP_ID_SDD
+              value: {{ .Values.logAppIdSdd | quote }}
+            - name: LOG_LEVEL
+              value: {{ .Values.logLevel }}
+            - name: ELASTIC_APM_SERVER_URL
+              value: {{ .Values.elasticApmServerUrl }}              
+            - name: KAFKA_CLIENT_ID
+              value: {{ .Values.kafkaClientId }}
+            - name: PATH_DOCUMENT
+              value: {{ .Values.pathDocument }}
+            - name: JENKS_URI
+              value: {{ .Values.jenksUri }}
+            - name: GOODNESS_OF_FIT
+              value: {{ .Values.goodnessOfFit | quote }}
+            - name: START_CLASSES
+              value: {{ .Values.startingClasses | quote }}
+            - name: KAFKA_GROUP_ID
+              value: {{ .Values.kafkaGroupId }}
+            - name: KAFKA_MAX_REQUEST_SIZE
+              value: {{ .Values.kafkaMaxRequestSize | quote }}
+            - name: KAFKA_REQUEST_TIMEOUT_MS
+              value: {{ .Values.kafkaRequestTimeoutMs | quote }}
+            - name: KAFKA_TRUSTSTORE_PATH
+              value: {{ .Values.kafkaTruststorePath }}
+            - name: KAFKA_TRUSTSTORE_FILE
+              value: {{ .Values.kafkaTruststoreFile }}
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: {{ .Values.googleVisionFilePath }}
+            - name: RUN_GV_PARALLEL
+              value: {{ .Values.runGVP | quote }}
+            - name: ENABLE_KAFKA_CLOUD
+              value: {{ .Values.enableKafkaCloud | quote }}
+            - name: KAFKA_TRUSTSTORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.kafkaSecretName }}
+                  key: {{ .Values.kafkaStorePwKey }}
+            - name: KAFKA_RBAC_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.kafkaSecretName }}
+                  key: {{ .Values.kafkaSvcAccount }}
+            - name: KAFKA_RBAC_PW
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.kafkaSecretName }}
+                  key: {{ .Values.kafkaSvcAccountPw }}
+            - name: KAFKA_PROCESSING_GUARANTEE
+              value: {{ .Values.kafkaProcessingGuarantee }}
+            - name: KAFKA_ISOLATION_LEVEL
+              value: {{ .Values.kafkaIsolationLevel | quote }}              
+            - name: IMAGE_EXTRACTION_METADATA_TOPIC
+              value: {{ .Values.imageExtractionMetadataTopic }}
+            - name: ENABLE_KAFKA_SSL
+              value: {{ .Values.enableKafkaSSL | quote }}
+            - name: ENABLE_KAFKA_RBAC
+              value: {{ .Values.enableKafkaRBAC | quote }}
+            - name: EXTRACTED_DOCUMENTS_TOPIC
+              value: {{ .Values.extractedDocumentsTopic }}
+            - name: KAFKA_COMMIT_INTERVAL_MS
+              value: {{ .Values.kafkaCommitIntervalMs | quote }}
+            - name: KAFKA_POLL_INTERVAL_MS
+              value: {{ .Values.kakfaPollIntervalMs | quote }}
+            - name: KAFKA_AUTO_OFFSET_RESET
+              value: {{ .Values.kafkaAutoOffsetReset }}
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: {{ .Values.kafkaBootstrapServers }}
+            - name: KAFKA_LOG_LEVEL
+              value: {{ .Values.kafkaLogLevel }}
+            - name: LOG_PATH
+              value: {{ .Values.logPath }}
+            - name: LOG_JSON_PATH
+              value: {{ .Values.logJsonPath }}
+            - name: MIN_JAVA_HEAP_MEM_SIZE
+              value: {{ .Values.minJavaHeapMemSize }}
+            - name: MAX_JAVA_HEAP_MEM_SIZE
+              value: {{ .Values.maxJavaHeapMemSize }}
+            - name: MAX_JAVA_THREAD_STACK_MEM_SIZE
+              value: {{ .Values.maxJavaThreadStackMemSize }}
+            - name: JAVA_HEAP_DUMP_OPTIONS
+              value: {{ .Values.javaHeapDumpOptions | quote }}
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: {{ .Values.resReqCpu }}
+              memory: {{ .Values.resReqMem }}
+            limits:
+              cpu: {{ .Values.resLimitCpu }}
+              memory: {{ .Values.resLimitMem }}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - name: filesvolume
+              mountPath: /files
+            - name: varlog
+              mountPath: /var/log
+            - name: kafka-truststore
+              mountPath: {{ .Values.kafkaTruststorePath }}
+              readOnly: true
+            - name: google-vision
+              mountPath: {{ .Values.googleVisionPath }}
+              readOnly: true
+          securityContext:
+              allowPrivilegeEscalation: false
+              privileged: false
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        runAsGroup: {{ .Values.pipelinedata.containerGroupId }}
+        runAsNonRoot: true
+        runAsUser:  {{ .Values.pipelinedata.containerUserId }}
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: filesvolume
+          persistentVolumeClaim:
+            claimName: {{ .Values.claimName }}
+        - name: varlog
+          emptyDir: {}
+        - name: google-vision
+          secret:
+            secretName: {{ .Values.googleSecretName }}
+        - name: kafka-truststore
+          secret:
+            secretName: {{ .Values.kafkaSecretName }}
+            items:
+            - key: {{ .Values.kafkaTruststoreFile }}
+              path: {{ .Values.kafkaTruststoreFile }}

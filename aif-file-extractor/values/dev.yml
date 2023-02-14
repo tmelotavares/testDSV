@@ -1,0 +1,45 @@
+---
+pipelinedata:
+  namespace: customs-dev
+  containerUserId: 1003
+  containerGroupId: 1002
+  appName: placeholder
+  image: placeholder
+
+# Kafka
+kafkaClientId: aif-file-extractor
+kafkaGroupId: aif-file-extractor
+kafkaBootstrapServers: dev-kafka-data.aifactory.dsv.com:9092
+enableKafkaRBAC: "false"
+enableKafkaSSL: "false"
+enableKafkaCloud: "false"
+kafkaSecretName: kafka-secret
+kafkaTruststorePath: /security
+kafkaTruststoreFile: aif-file-extractor.jks
+kafkaSvcAccount: aif-kafka-sa
+kafkaSvcAccountPw: aif-kafka-sa-pw
+kafkaStorePwKey: password
+
+
+# Infra
+replicaCount: 1
+
+runGVP: "false"
+goodnessOfFit: ".999"
+startingClasses: "5"
+jenksUri: http://aif-jenks-processor-feature-dna-907-rotations:8005/jenks/clustering
+
+claimName: customs-shared-data-pvc-dev
+imageExtractionMetadataTopic: image-extraction-metadata-1343
+extractedDocumentsTopic: extracted-hocr-files-1343
+pathDocument: /files/document_1343/
+
+googleSecretName: google-vision-secret
+googleVisionPath: /credentials/
+googleVisionFilePath: /credentials/google-vision-cred.json
+
+#Mem
+resReqCpu: 100m
+resReqMem: 700Mi
+resLimitCpu: 500m
+resLimitMem: 1Gi

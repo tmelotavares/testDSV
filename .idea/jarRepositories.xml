@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteRepositoriesConfiguration">
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Central Repository" />
+      <option name="url" value="https://repo.maven.apache.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Maven Central repository" />
+      <option name="url" value="https://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jboss.community" />
+      <option name="name" value="JBoss Community repository" />
+      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jai-core" />
+      <option name="name" value="jai-core" />
+      <option name="url" value="http://maven.icm.edu.pl/artifactory/repo/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="es-maven" />
+      <option name="name" value="DSV Maven Repository" />
+      <option name="url" value="https://artifactory.dsv.com/artifactory/es-maven/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="dna-maven" />
+      <option name="name" value="dna-maven" />
+      <option name="url" value="https://artifactory.dsv.com/artifactory/dna-maven-local/" />
+    </remote-repository>
+  </component>
+</project>

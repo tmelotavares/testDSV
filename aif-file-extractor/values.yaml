@@ -1,0 +1,77 @@
+---
+# Required by CICD pipeline
+pipelinedata:
+  namespace: customs-dev
+  containerUserId: 1003
+  containerGroupId: 1002
+  appName: placeHolder
+  image: placeHolder
+
+# App
+minJavaHeapMemSize: 200m
+maxJavaHeapMemSize: 4g
+maxJavaThreadStackMemSize: 64m
+claimName: customs-shared-data-pvc
+
+goodnessOfFit: ".999"
+startingClasses: "5"
+
+# Infra
+replicaCount: 1
+
+# Security - kafka
+kafkaSecretName: confluent-kafka-secret
+kafkaTruststorePath: /security
+enableKafkaRBAC: "false"
+enableKafkaSSL: "false"
+enableKafkaCloud: "true"
+kafkaTruststoreFile: confluent.jks
+kafkaSvcAccount: aif-kafka-sa
+kafkaSvcAccountPw: aif-kafka-sa-pw
+
+# Kafka
+kafkaClientId: aif-file-extractor
+kafkaGroupId: aif-file-extractor-group
+kafkaCommitIntervalMs: '500'
+kafkaAutoOffsetReset: earliest
+kafkaBootstrapServers: kafka:9092
+kafkaMaxRequestSize: "104857600"
+kakfaPollIntervalMs: '1800000'
+kafkaRequestTimeoutMs: "60000"
+kafkaProcessingGuarantee: exactly_once_beta
+kafkaStorePwKey: confluent_storepass
+kafkaIsolationLevel: 'read_committed'
+
+
+# Kafka - topics
+imageExtractionMetadataTopic: aif.customs.fct.extracted-image
+extractedDocumentsTopic: aif.customs.fct.extracted-documents
+
+# Kafka - log
+kafkaLogLevel: WARN
+
+# Log
+logAppNameSdd: aifactory
+logAppIdSdd: 5389
+logLevel: INFO
+logPath: /var/log/app.log
+logJsonPath: /var/log/app-json.log
+javaHeapDumpOptions: "-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/var/log/hdump.hprof -verbose:gc"
+elasticApmServerUrl: http://apm-sandbox-apm-server.monitoring.svc:8200
+
+pathDocument: /files/document/
+
+jenksUri: http://aif-jenks:8005/jenks/clustering
+
+googleSecretName: google-vision-secret
+googleVisionPath: /credentials/
+googleVisionFilePath: /credentials/google-vision-cred.json
+
+
+#MEM
+resReqCpu: 2
+resReqMem: 1Gi
+resLimitCpu: 3
+resLimitMem: 8Gi
+
+runGVP: "false"

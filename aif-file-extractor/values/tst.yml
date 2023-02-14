@@ -1,0 +1,48 @@
+---
+# Kafka
+pipelinedata:
+  namespace: customs-tst
+  containerUserId: 1003
+  containerGroupId: 1002
+  appName: placeholder
+  image: placeholder
+
+
+kafkaClientId: aif-file-extractor
+kafkaGroupId: aif-file-extractor
+
+kafkaBootstrapServers: pkc-lq8gm.westeurope.azure.confluent.cloud:9092
+
+#kafkaBootstrapServers: hcptstcpkafka1.hcp.dsv.com:19001,hcptstcpkafka2.hcp.dsv.com:19001,hcptstcpkafka3.hcp.dsv.com:19001,hcptstcpkafka4.hcp.dsv.com:19001
+## KAFKA
+enableKafkaSSL: "false"
+imageExtractionMetadataTopic: aif.customs.fct.extracted-image
+extractedDocumentsTopic: aif.customs.fct.extracted-documents
+enableKafkaRBAC: "false"
+enableKafkaCloud: "true"
+kafkaSecretName: confluent-kafka-secret
+kafkaTruststorePath: /security
+kafkaTruststoreFile: confluent.jks
+kafkaSvcAccount: aif-kafka-sa
+kafkaSvcAccountPw: aif-kafka-sa-pw
+kafkaStorePwKey: confluent_storepass
+claimName: customs-shared-data-pvc
+
+
+## Application configs
+goodnessOfFit: ".999"
+startingClasses: "5"
+runGVP: "false"
+
+
+## APIs
+googleSecretName: google-vision-secret-tst
+googleVisionPath: /credentials/
+googleVisionFilePath: /credentials/google-vision-cred.json
+jenksUri: http://aif-jenks-processor:8005/jenks/clustering
+
+#MEM
+resReqCpu: 100m
+resReqMem: 700Mi
+resLimitCpu: 500m
+resLimitMem: 1Gi

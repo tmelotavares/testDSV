@@ -1,0 +1,43 @@
+---
+pipelinedata:
+  namespace: customs-prd
+  containerUserId: 1003
+  containerGroupId: 1002
+  appName: placeholder
+  image: placeholder
+
+# Kafka
+
+kafkaClientId: aif-file-extractor
+kafkaGroupId: aif-file-extractor
+
+kafkaBootstrapServers: pkc-lq8gm.westeurope.azure.confluent.cloud:9092
+
+#kafkaBootstrapServers: hcpprdcpkafka1.hcp.dsv.com:19001,hcpprdcpkafka2.hcp.dsv.com:19001,hcpprdcpkafka3.hcp.dsv.com:19001,hcpprdcpkafka4.hcp.dsv.com:19001
+
+# Security - kafka
+kafkaTruststoreFile: confluent.jks
+enableKafkaSSL: 'false'
+enableKafkaRBAC: 'false'
+enableKafkaCloud: "true"
+kafkaStorePwKey: confluent_storepass
+
+imageExtractionMetadataTopic: aif.customs.fct.extracted-image
+extractedDocumentsTopic: aif.customs.fct.extracted-documents
+elasticApmServerUrl: http://apm-server-prd.monitoring-prd.svc:8200
+
+claimName: customs-shared-data-pvc
+
+goodnessOfFit: ".999"
+startingClasses: "5"
+runGVP: "false"
+googleSecretName: google-vision-secret
+googleVisionPath: /credentials/
+googleVisionFilePath: /credentials/google-vision-cred.json
+jenksUri: http://aif-jenks-processor:8005/jenks/clustering
+
+#MEM
+resReqCpu: 2
+resReqMem: 1Gi
+resLimitCpu: 3
+resLimitMem: 8Gi
