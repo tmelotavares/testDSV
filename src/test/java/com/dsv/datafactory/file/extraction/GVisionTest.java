@@ -32,11 +32,11 @@ import java.util.logging.Logger;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class GVisionTest
 {
-    private Path basePath = Paths.get("src", "test", "resources", "images");
+    private final Path basePath = Paths.get("src", "test", "resources", "images");
 
     private static final Logger logger = Logger.getLogger(GVisionTest.class.getName());
 
-
+    //FIXME: this test needs an assertion
     @Test
     void testCreateDocument() throws IOException
     {
@@ -47,7 +47,7 @@ public class GVisionTest
         File dir = new File("C:\\Users\\Peter.S.Larsen\\OneDrive - DSV\\DNA-495-TEST\\invoice_5");
         File[] directoryListing = dir.listFiles();
 
-        for (int i = 0; i < directoryListing.length; i++) {
+        for (int i = 0; i < Objects.requireNonNull(directoryListing).length; i++) {
 
             File file = directoryListing[i];
 
@@ -121,7 +121,7 @@ public class GVisionTest
 
                     }
 
-                    if (visionResponse == null || !visionResponse.hasFullTextAnnotation()) {
+                    if (!visionResponse.hasFullTextAnnotation()) {
                         logger.info(String.format("Image %s contains no text", imgName));
                         return;
                     }
@@ -156,7 +156,7 @@ public class GVisionTest
     }
 
 
-
+    //FIXME: this test needs an assertion
     @Test
     void testGetTextFromPng() throws IOException
     {
@@ -167,7 +167,7 @@ public class GVisionTest
         File dir = new File("C:\\Users\\Peter.S.Larsen\\OneDrive - DSV\\DNA-495-TEST\\"+ folder);
         File[] directoryListing = dir.listFiles();
 
-        for (int i = 0; i < directoryListing.length; i++) {
+        for (int i = 0; i < Objects.requireNonNull(directoryListing).length; i++) {
 
             File file = directoryListing[i];
 
@@ -207,7 +207,7 @@ public class GVisionTest
         String jsonString = mapper.writeValueAsString(pages);
         System.out.println(jsonString);
     }
-
+    //FIXME: this test needs an assertion
     @Test
     void testBlankPages() throws IOException
     {
@@ -218,7 +218,7 @@ public class GVisionTest
         File dir = new File("H:\\training_data_google\\DNA-619\\test_imgs\\");
         File[] directoryListing = dir.listFiles();
 
-        for (int i = 0; i < directoryListing.length; i++) {
+        for (int i = 0; i < Objects.requireNonNull(directoryListing).length; i++) {
 
             File file = directoryListing[i];
 
@@ -292,7 +292,7 @@ public class GVisionTest
 
                         }
 
-                        if (visionResponse == null || !visionResponse.hasFullTextAnnotation()) {
+                        if (!visionResponse.hasFullTextAnnotation()) {
                             logger.info(String.format("Image %s contains no text", imgName));
                             return;
                         }
@@ -330,7 +330,7 @@ public class GVisionTest
         String jsonString = mapper.writeValueAsString(document);
         System.out.println(jsonString);
     }
-
+    //FIXME: this test needs an assertion
     @Test
     void testGetTextFromPdf() throws IOException
     {
@@ -341,7 +341,7 @@ public class GVisionTest
         File dir = new File("C:\\Users\\Peter.S.Larsen\\OneDrive - DSV\\DNA-495-TEST\\"+ folder);
         File[] directoryListing = dir.listFiles();
 
-        for (int i = 0; i < directoryListing.length; i++) {
+        for (int i = 0; i < Objects.requireNonNull(directoryListing).length; i++) {
 
             File file = directoryListing[i];
 
@@ -396,7 +396,7 @@ public class GVisionTest
         System.out.println(jsonString);
     }
 
-
+    //FIXME: This test needs an assertion
     @Test
     void testCompareResults() throws IOException, NoSuchAlgorithmException
     {
@@ -432,33 +432,7 @@ public class GVisionTest
            System.out.println("page size pdf: " + pagePdf.size());
 
            System.out.println();
-
-//           pagePdf.retainAll(pagePng);
-//           pagePng.retainAll(pagePdf);
-
-//           pagePng.removeAll(pagePdf);
            pagePdf.removeAll(pagePng);
-
-//            System.out.println("After");
-//            System.out.println("page size png: " + pagePng.size());
-//            System.out.println("page size pdf: " + pagePdf.size());
-//
-//
-//            System.out.println("page png checksum256: " + hashPNG);
-//            System.out.println("page pdf checksum256: " + hashPDF);
-//
-//
-//            System.out.println();
-
-//            System.out.println("elements in png page not found in pdf page");
-//
-//            for (String s : pagePng) {
-//
-//                System.out.println(s);
-//
-//            }
-//
-//            System.out.println();
 
             System.out.println("elements in pdf page not found in png page");
 
@@ -467,8 +441,6 @@ public class GVisionTest
                 System.out.println(s);
 
             }
-
-
             System.out.println();
 
 

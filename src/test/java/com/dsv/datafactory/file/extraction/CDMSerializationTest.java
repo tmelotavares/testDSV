@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,8 +54,8 @@ public class CDMSerializationTest {
         }
         Assertions.assertTrue(condition);
 
-        String json1 = new String(Files.readAllBytes(new File(testWordPath1).toPath()), "UTF-8");
-        String json2 = new String(Files.readAllBytes(new File(testWordPath2).toPath()), "UTF-8");
+        String json1 = new String(Files.readAllBytes(new File(testWordPath1).toPath()), StandardCharsets.UTF_8);
+        String json2 = new String(Files.readAllBytes(new File(testWordPath2).toPath()), StandardCharsets.UTF_8);
         Word manualWord1 = getSingleWord(objectMapper.readTree(json1));
         Word manualWord2 = getSingleWord(objectMapper.readTree(json2));
 
@@ -74,7 +75,7 @@ public class CDMSerializationTest {
     Page loadTestPage(String path) throws IOException {
         File testObj = new File(path);
         ObjectMapper objectMapper = new ObjectMapper();
-        String json = new String(Files.readAllBytes(testObj.toPath()), "UTF-8");
+        String json = new String(Files.readAllBytes(testObj.toPath()), StandardCharsets.UTF_8);
         JsonNode jsonNode = objectMapper.readTree(json);
         Page page = new Page();
         page.setHeight(jsonNode.get("height").asInt());

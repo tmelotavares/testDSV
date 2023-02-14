@@ -3,7 +3,6 @@ package com.dsv.datafactory.file.extraction;
 import com.dsv.datafactory.file.extraction.processor.Config;
 import com.dsv.datafactory.file.extraction.processor.domain.ExtractLines;
 import com.dsv.datafactory.file.extraction.processor.domain.ocr.GoogleOcr;
-import com.dsv.datafactory.file.extraction.processor.modules.ConfigModule;
 import com.dsv.datafactory.model.Document;
 import com.dsv.datafactory.model.Page;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -17,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 @Disabled
 public class SaveDocumentToDisk {
+    //FIXME: This test is not a test, it is a script to save documents to disk. It should be moved to a different package.
     String src = "C:\\_dev_stuff\\data\\pngs\\";
     String dst = "C:\\_dev_stuff\\test_res\\";
     GoogleOcr ocr = new GoogleOcr();
@@ -32,7 +32,7 @@ public class SaveDocumentToDisk {
 
         File dir = new File(src);
         String[] paths = dir.list();
-        ArrayList toProcess = new ArrayList();
+        ArrayList<String> toProcess = new ArrayList<String>();
         ArrayList<String> mids = new ArrayList<>();
 
         for (File req : dir.listFiles()) {
@@ -45,6 +45,7 @@ public class SaveDocumentToDisk {
         for (String mid : mids) {
             Document toSave = null;
             toProcess.clear();
+            assert paths != null;
             for (String path : paths) {
                 if (path.contains(mid)) {
                     toProcess.add(src + path);

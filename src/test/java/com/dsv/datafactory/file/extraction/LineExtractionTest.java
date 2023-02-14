@@ -33,6 +33,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -41,7 +42,7 @@ import java.util.stream.Collectors;
 @Disabled // disabled due to referencing unusable test_folder directory
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class LineExtractionTest {
-    private Path basePath = Paths.get("src", "test", "resources", "images");
+    private final Path basePath = Paths.get("src", "test", "resources", "images");
 
     private static final Logger logger = Logger.getLogger(GVisionTest.class.getName());
     String lineServiceUrl = "http://localhost:8005/jenks/clustering";
@@ -58,7 +59,7 @@ public class LineExtractionTest {
         File dir = new File(test_folder);
         File[] directoryListing = dir.listFiles();
 
-        for (int i = 0; i < directoryListing.length; i++) {
+        for (int i = 0; i < Objects.requireNonNull(directoryListing).length; i++) {
 
             File file = directoryListing[i];
 
@@ -134,7 +135,7 @@ public class LineExtractionTest {
 
                     }
 
-                    if (visionResponse == null || !visionResponse.hasFullTextAnnotation()) {
+                    if (!visionResponse.hasFullTextAnnotation()) {
                         logger.info(String.format("Image %s contains no text", imgName));
                         return;
                     }

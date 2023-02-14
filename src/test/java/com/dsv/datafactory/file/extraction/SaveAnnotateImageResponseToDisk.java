@@ -17,6 +17,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 @Disabled
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -34,7 +35,7 @@ public class SaveAnnotateImageResponseToDisk {
 
     @Test
     void ProcessFilesAndSaveToDisk() throws IOException {
-        ArrayList<String> pathImages = Arrays.stream(new File(imageDir).listFiles()).map(x -> x.getAbsolutePath()).collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<String> pathImages = Arrays.stream(Objects.requireNonNull(new File(imageDir).listFiles())).map(File::getAbsolutePath).collect(Collectors.toCollection(ArrayList::new));
         ArrayList<Image> images = refac.generateImages(pathImages);
         List<AnnotateImageRequest> requests = refac.bulkGeneratePngRequest(images, Feature.newBuilder().setType(Feature.Type.DOCUMENT_TEXT_DETECTION).build() );
         List<AnnotateImageResponse>responses = refac.extractFullDocumentResponse(requests);

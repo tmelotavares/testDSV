@@ -31,8 +31,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class BuildTest {
     // Tests to run when building jar file- much is taken from UnpackExtractHOCR but with specific examples
     private ExtractContent extractContent;
-    private File standard =new File("src/test/resources/build_data/standard/pdf_files");
-    private ArrayList<String> newFormat =  new ArrayList<>(Arrays.asList("sample_outputalice_5_pg0","sample_outputalice_5_pg1","sample_outputalice_5_pg2","sample_outputalice_5_pg3","sample_outputalice_5_pg4"));
+    private final File standard =new File("src/test/resources/build_data/standard/pdf_files");
+    private final ArrayList<String> newFormat =  new ArrayList<>(Arrays.asList("sample_outputalice_5_pg0","sample_outputalice_5_pg1","sample_outputalice_5_pg2","sample_outputalice_5_pg3","sample_outputalice_5_pg4"));
 
     @BeforeAll
     void setup() {
@@ -43,7 +43,7 @@ public class BuildTest {
 
     private Module getTestConfigModule() {
         return new AbstractModule() {
-            @Override protected void configure() {
+            @Override private void configure() {
                 Config config = new Config();
                 bind(Config.class).toInstance(config);
             }
@@ -55,6 +55,7 @@ public class BuildTest {
     void basicExtractionTest() throws IOException {
         ///Basic test for build, ensure that sample pdfs go through and produce hocr result
         File[] files = standard.listFiles();
+        assert files != null;
         for (File file:files){
             MetaData imageExtractionMetadata = new MetaData();
             imageExtractionMetadata.fileName = file.getName();

@@ -1,6 +1,5 @@
 package com.dsv.datafactory.file.extraction;
 import com.dsv.datafactory.file.extraction.processor.Config;
-import com.dsv.datafactory.file.extraction.processor.domain.ocr.GoogleOcr;
 import com.dsv.datafactory.file.extraction.processor.domain.ocr.GoogleOcrP;
 import com.dsv.datafactory.file.extraction.processor.models.EntityAnnotation;
 import com.dsv.datafactory.file.extraction.processor.models.GoogleVisionResponse;
@@ -23,7 +22,7 @@ public class NegativeCoordsTest {
     //GoogleOcr googleOcr = new GoogleOcr();
     GoogleOcrP refac;
 
-    GoogleVisionResponse ocr = loadGoogleVisionResponseFromDisk("src/test/resources/images/negativeCoords/negativeCoordsExample.json");
+    GoogleVisionResponse ocr = loadGoogleVisionResponseFromDisk();
 
     @BeforeAll
     void setup(){
@@ -49,10 +48,10 @@ public class NegativeCoordsTest {
     }
 
 
-    GoogleVisionResponse loadGoogleVisionResponseFromDisk(String path){
+    GoogleVisionResponse loadGoogleVisionResponseFromDisk(){
         GoogleVisionResponse response = null;
         try {
-            FileInputStream fileInputStream = new FileInputStream(path);
+            FileInputStream fileInputStream = new FileInputStream("src/test/resources/images/negativeCoords/negativeCoordsExample.json");
             String sResponse = IOUtils.toString(fileInputStream, StandardCharsets.UTF_8);
             ObjectMapper mapper = new ObjectMapper();
             response = mapper.readValue(sResponse, GoogleVisionResponse.class);

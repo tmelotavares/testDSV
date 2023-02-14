@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
+
 @Disabled
 public class SaveGoogleVisionResponseToDisk {
     GoogleOcr googleOcr = new GoogleOcr();
@@ -21,13 +23,14 @@ public class SaveGoogleVisionResponseToDisk {
 
     @Test
     void ProcessAnnotateImageResponseAndSaveToDisk() {
-        for (File image : new File(airDir).listFiles())
+        for (File image : Objects.requireNonNull(new File(airDir).listFiles()))
             try {
                 String imagePath = image.getAbsolutePath();
                 String dst = dstDir + image.getName().substring(0, image.getName().length() - ".object".length()) + ".json";
                 AnnotateImageResponse response = loadAnnotateImageResponseFromDisk(imagePath);
                 GoogleVisionResponse parsed = new OcrParser(response).parse();
                 saveDocument(parsed, dst);
+                //FIXME: This is a hack to get the test to pass. The test should be rewritten to use a mock instead of a real file.
             }catch (Exception e) {
                 e.printStackTrace();
             }
@@ -36,7 +39,7 @@ public class SaveGoogleVisionResponseToDisk {
         @Test
         void ProcessImagesAndSaveToDisk () {
 
-            for (File image : new File(imageDir).listFiles())
+            for (File image : Objects.requireNonNull(new File(imageDir).listFiles()))
                 try {
                     String imagePath = image.getAbsolutePath();
                     String dst = dstDir + image.getName().substring(0, image.getName().length() - ".png".length()) + ".json";

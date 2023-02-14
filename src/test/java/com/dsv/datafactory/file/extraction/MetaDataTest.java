@@ -30,14 +30,12 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MetaDataTest {
     private ExtractContent extractContent;
     private ExtractLines extractLines;
-    private String testCases = "C:\\Users\\Kaden.Behan\\OneDrive - DSV\\Desktop\\test_cases_file_extractor\\";
-    private String imagePath = "src/test/resources/images/";
-    private ArrayList<String> test_blank2 = new ArrayList<>(Arrays.asList(imagePath+"test_blank0.png"));
-    private ArrayList<String> produced_more_words_jenks = new ArrayList<>(Arrays.asList(imagePath+"39_COM_INV_rotated_20.jpg",imagePath+"39_COM_INV_rotated_21.jpg"));
+    private final String imagePath = "src/test/resources/images/";
+    private final ArrayList<String> produced_more_words_jenks = new ArrayList<>(Arrays.asList(imagePath+"39_COM_INV_rotated_20.jpg",imagePath+"39_COM_INV_rotated_21.jpg"));
 
-    private ArrayList<String> known_issue_grouping = new ArrayList<>(Arrays.asList(imagePath+"2267-1 & 2 CIPL_10.jpg"));
-    private ArrayList<String> test_blank = new ArrayList<>(Arrays.asList(imagePath+"0f62a47c044152f3ccdcefb7fa33435b76a41254ebac4a9b61e1ec007f68fe3e0.png"));
-    private ArrayList<String> newFormat =  new ArrayList<>(Arrays.asList(imagePath+"sample_outputalice_30_pg_300.jpg",imagePath+"sample_outputalice_30_pg_301.jpg",imagePath+"sample_outputalice_30_pg_302.jpg"));
+    private final ArrayList<String> known_issue_grouping = new ArrayList<>(Arrays.asList(imagePath+"2267-1 & 2 CIPL_10.jpg"));
+    private final ArrayList<String> test_blank = new ArrayList<>(Arrays.asList(imagePath+"0f62a47c044152f3ccdcefb7fa33435b76a41254ebac4a9b61e1ec007f68fe3e0.png"));
+    private final ArrayList<String> newFormat =  new ArrayList<>(Arrays.asList(imagePath+"sample_outputalice_30_pg_300.jpg",imagePath+"sample_outputalice_30_pg_301.jpg",imagePath+"sample_outputalice_30_pg_302.jpg"));
 
     @BeforeAll
     void setup() {
@@ -49,7 +47,7 @@ public class MetaDataTest {
 
     private Module getTestConfigModule() {
         return new AbstractModule() {
-            @Override protected void configure() {
+            @Override private void configure() {
                 Config config = new Config();
                 bind(Config.class).toInstance(config);
                 config.lineServiceUrl = "http://localhost:8005/jenks/clustering";
@@ -65,6 +63,7 @@ public class MetaDataTest {
 
         File images = new File(pathToImages);
         File[] files = images.listFiles();
+        assert files != null;
         Integer numDocs = files.length;
         MetaData uploadedFile = new MetaData();
         uploadedFile.key = key;
@@ -236,10 +235,9 @@ public class MetaDataTest {
     @Test
     void testYMeansMatching(){
         ///Test case 1 all words match //
-        List<Integer> meansForLine = new ArrayList<>(Arrays.asList(100,130,150,200));
-        ArrayList<Word> allMatch = generateTestWordsByYMeans((ArrayList<Integer>) meansForLine);
-        List<Integer> finalMeansForLine = meansForLine;
-        ArrayList<Word> matches = (ArrayList<Word>) allMatch.stream().filter(x-> finalMeansForLine.stream().anyMatch(i -> i.equals(x.getyMean()))).collect(Collectors.toList());
+        ArrayList<Integer> meansForLine = new ArrayList<>(Arrays.asList(100,130,150,200));
+        ArrayList<Word> allMatch = generateTestWordsByYMeans(meansForLine);
+        ArrayList<Word> matches = (ArrayList<Word>) allMatch.stream().filter(x-> meansForLine.stream().anyMatch(i -> i.equals(x.getyMean()))).collect(Collectors.toList());
         assertEquals(matches.size(),allMatch.size());
 
         ///Test case 2 partial match//
@@ -338,16 +336,16 @@ public class MetaDataTest {
 
     @Test
     void testLargeFileNumPages() throws IOException {
+        String testCases = "src/test/resources/testCases";
         String path = testCases + "large_files/test/";
         File dir = new File(path);
-        for(File d : dir.listFiles()){
+        for(File d : Objects.requireNonNull(dir.listFiles())){
             //Need to run setup to clear previous hocr values
-            String imagePath = d.getName();
-            String key = imagePath;
+            String key = d.getName();
 //            String files = Arrays.asList(d.)
             /// in this case not sorted by page - here just testing performance
             ArrayList<String> mockMetaDataPaths = new ArrayList<>();
-            for (File file: d.listFiles()){
+            for (File file: Objects.requireNonNull(d.listFiles())){
                 mockMetaDataPaths.add(file.getAbsolutePath());
             }
             long startTime = System.nanoTime();
@@ -363,7 +361,6 @@ public class MetaDataTest {
     @Disabled
     @Test
     void generateOutput() throws IOException {
-        ArrayList<String>  pathReg1 = new ArrayList<>(Collections.singletonList("src\\test\\resources\\build_data\\standard\\regression\\comparison_pngs\\0547240.jpg"));
         ArrayList<String>  pathReg2 = new ArrayList<>(Arrays.asList("src\\test\\resources\\build_data\\standard\\regression\\comparison_pngs\\A05BER07D99118B15_01_10.jpg","src\\test\\resources\\build_data\\standard\\regression\\comparison_pngs\\A05BER07D99118B15_01_11.jpg"));
         MetaData uploadedFile1 = new MetaData();
         uploadedFile1.fileName = "A05BER07D99118B15_01_1";
@@ -375,7 +372,7 @@ public class MetaDataTest {
         assert(document!=null);
         File fileCSV = new File("src/test/resources/build_data/standard/regression/curr_psm1_html/"+"A05BER07D99118B15_01_1.html");
         OutputStreamWriter writer =
-                new OutputStreamWriter(new FileOutputStream(fileCSV), StandardCharsets.UTF_8);
+                new OutputStreamWriter(Files.newOutputStream(fileCSV.toPath()), StandardCharsets.UTF_8);
 
         writer.close();
     }

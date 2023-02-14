@@ -42,11 +42,11 @@ public class PerformanceTests {
     ExtractLines extractLines ;
     private ExtractContent extractContent;
 
-    private Path mid = Paths.get("src","test","resources","performance","mid/");
-    private Path large = Paths.get("src","test","resources","performance","large/");
-    private Path small = Paths.get("src","test","resources","performance","small/");
+    private final Path mid = Paths.get("src","test","resources","performance","mid/");
+    private final Path large = Paths.get("src","test","resources","performance","large/");
+    private final Path small = Paths.get("src","test","resources","performance","small/");
 
-    private ArrayList<String> largeImgs =  new ArrayList<>(Arrays.asList(large.toAbsolutePath()+"/00c2393325a10e2e09e3fd0e2322834cb6aa6207233248827f5aa596a497c7840.png",large.toAbsolutePath()+"/00c2393325a10e2e09e3fd0e2322834cb6aa6207233248827f5aa596a497c7841.png",large.toAbsolutePath()+"/00c2393325a10e2e09e3fd0e2322834cb6aa6207233248827f5aa596a497c7842.png"));
+    private final ArrayList<String> largeImgs =  new ArrayList<>(Arrays.asList(large.toAbsolutePath()+"/00c2393325a10e2e09e3fd0e2322834cb6aa6207233248827f5aa596a497c7840.png",large.toAbsolutePath()+"/00c2393325a10e2e09e3fd0e2322834cb6aa6207233248827f5aa596a497c7841.png",large.toAbsolutePath()+"/00c2393325a10e2e09e3fd0e2322834cb6aa6207233248827f5aa596a497c7842.png"));
     ObjectMapper mapper = new ObjectMapper();
 
 
@@ -62,7 +62,7 @@ public class PerformanceTests {
 
     private Module getTestConfigModule() {
         return new AbstractModule() {
-            @Override protected void configure() {
+            @Override private void configure() {
                 Config config = new Config();
                 bind(Config.class).toInstance(config);
                 config.lineServiceUrl = "http://localhost:8005/jenks/clustering";
@@ -99,11 +99,11 @@ public class PerformanceTests {
         config.goodnessOfFit = ".999";
         extractLines = new ExtractLines(config);
         int averageTime = 0;
-        Integer averageWord = 0;
+        int averageWord = 0;
         int averageJenks = 0;
-        for (File file : large.toAbsolutePath().toFile().listFiles()) {
+        for (File file : Objects.requireNonNull(large.toAbsolutePath().toFile().listFiles())) {
             ArrayList<String> sortedImageArray = new ArrayList<>();
-            for (File img : file.listFiles()) {
+            for (File img : Objects.requireNonNull(file.listFiles())) {
 
                 sortedImageArray.add(img.getAbsolutePath());
             }
@@ -122,9 +122,9 @@ public class PerformanceTests {
             averageJenks += endJenksTime - startJenksTime;
             System.out.println(endJenksTime - startJenksTime);
         }
-        System.out.println("Average jenks processing time " + averageJenks / large.toAbsolutePath().toFile().listFiles().length);
-        System.out.println("Average gv processing time " + averageTime /  large.toAbsolutePath().toFile().listFiles().length);
-        System.out.println("Average words " + averageWord/ large.toAbsolutePath().toFile().listFiles().length);
+        System.out.println("Average jenks processing time " + averageJenks / Objects.requireNonNull(large.toAbsolutePath().toFile().listFiles()).length);
+        System.out.println("Average gv processing time " + averageTime /  Objects.requireNonNull(large.toAbsolutePath().toFile().listFiles()).length);
+        System.out.println("Average words " + averageWord/ Objects.requireNonNull(large.toAbsolutePath().toFile().listFiles()).length);
     }
 
     @Test
@@ -135,11 +135,11 @@ public class PerformanceTests {
         config.goodnessOfFit = ".999";
         extractLines = new ExtractLines(config);
         int averageTime = 0;
-        Integer averageWord = 0;
+        int averageWord = 0;
         int averageJenks = 0;
-        for (File file : large.toAbsolutePath().toFile().listFiles()) {
+        for (File file : Objects.requireNonNull(large.toAbsolutePath().toFile().listFiles())) {
             ArrayList<String> sortedImageArray = new ArrayList<>();
-            for (File img : file.listFiles()) {
+            for (File img : Objects.requireNonNull(file.listFiles())) {
                 sortedImageArray.add(img.getAbsolutePath());
             }
             long startTime = System.currentTimeMillis();
@@ -156,9 +156,9 @@ public class PerformanceTests {
             averageJenks += endJenksTime - startJenksTime;
             System.out.println(endJenksTime - startJenksTime);
         }
-        System.out.println("Average jenks processing time " + averageJenks / large.toAbsolutePath().toFile().listFiles().length);
-        System.out.println("Average gv processing time " + averageTime /  large.toAbsolutePath().toFile().listFiles().length);
-        System.out.println("Average words " + averageWord/ large.toAbsolutePath().toFile().listFiles().length);
+        System.out.println("Average jenks processing time " + averageJenks / Objects.requireNonNull(large.toAbsolutePath().toFile().listFiles()).length);
+        System.out.println("Average gv processing time " + averageTime /  Objects.requireNonNull(large.toAbsolutePath().toFile().listFiles()).length);
+        System.out.println("Average words " + averageWord/ Objects.requireNonNull(large.toAbsolutePath().toFile().listFiles()).length);
     }
 
     @Test
@@ -166,10 +166,10 @@ public class PerformanceTests {
         ///Test bottle neck for files with over 6k words
         int allFiles = 0;
         int averagePerDoc = 0;
-        for (File file : large.toAbsolutePath().toFile().listFiles()) {
+        for (File file : Objects.requireNonNull(large.toAbsolutePath().toFile().listFiles())) {
             int averageTime = 0;
-            allFiles += file.listFiles().length;
-            for (File img : file.listFiles()) {
+            allFiles += Objects.requireNonNull(file.listFiles()).length;
+            for (File img : Objects.requireNonNull(file.listFiles())) {
                 Image processedImage = ocr.processImg(img.getAbsolutePath());
                 List<AnnotateImageRequest> requests = ocr.generatePngRequest(processedImage, Feature.newBuilder().setType(Feature.Type.DOCUMENT_TEXT_DETECTION).build());
                 long startTime = System.currentTimeMillis();
@@ -179,7 +179,7 @@ public class PerformanceTests {
                 System.out.println("Time taken for "+img.getName() +" " + (endTime - startTime));
             }
             System.out.println( "Average time taken for : " + file.getName() + " total "+averageTime );
-            System.out.println( "Average time taken for : " + file.getName() + " per img "+averageTime / file.listFiles().length);
+            System.out.println( "Average time taken for : " + file.getName() + " per img "+averageTime / Objects.requireNonNull(file.listFiles()).length);
 
         }
         System.out.println("Average time taken all files " + averagePerDoc/allFiles);
@@ -190,9 +190,9 @@ public class PerformanceTests {
         ///Test bottle neck for files with over 6k words
         int allFiles = 0;
         int averagePerDoc = 0;
-        for (File file : large.toAbsolutePath().toFile().listFiles()) {
+        for (File file : Objects.requireNonNull(large.toAbsolutePath().toFile().listFiles())) {
             int averageTime = 0;
-            ArrayList<Image> images = Arrays.stream(file.listFiles()).map(x-> {
+            ArrayList<Image> images = Arrays.stream(Objects.requireNonNull(file.listFiles())).map(x-> {
                 try {
                     return ocr.processImg(x.getAbsolutePath());
                 } catch (IOException e) {
@@ -208,16 +208,16 @@ public class PerformanceTests {
                 averagePerDoc += averageTime;
             System.out.println( "Average time taken for : " + file.getName() + "  "+(endTime - startTime));;
         }
-        System.out.println("Average time taken all files " + averagePerDoc/large.toAbsolutePath().toFile().listFiles().length);
+        System.out.println("Average time taken all files " + averagePerDoc/ Objects.requireNonNull(large.toAbsolutePath().toFile().listFiles()).length);
         }
     @Test
     public void testLargeFilesIsolatedGvisionPara() throws IOException {
         ///Test bottle neck for files with over 6k words
         int allFiles = 0;
         int averagePerDoc = 0;
-        for (File file : large.toAbsolutePath().toFile().listFiles()) {
+        for (File file : Objects.requireNonNull(large.toAbsolutePath().toFile().listFiles())) {
             int averageTime = 0;
-            ArrayList<Image> images = Arrays.stream(file.listFiles()).map(x-> {
+            ArrayList<Image> images = Arrays.stream(Objects.requireNonNull(file.listFiles())).map(x-> {
                 try {
                     return ocr.processImg(x.getAbsolutePath());
                 } catch (IOException e) {
@@ -240,12 +240,12 @@ public class PerformanceTests {
             averagePerDoc += averageTime;
             System.out.println( "Average time taken for : " + file.getName() + "  "+(endTime - startTime));;
         }
-        System.out.println("Average time taken all files " + averagePerDoc/large.toAbsolutePath().toFile().listFiles().length);
+        System.out.println("Average time taken all files " + averagePerDoc/ Objects.requireNonNull(large.toAbsolutePath().toFile().listFiles()).length);
     }
 
     @Test
     public void testFileOverThresholdGV() throws IOException {
-        ArrayList<String> pathImages = Arrays.stream(new File(large + "/many_pages/").listFiles()).map(x -> x.getAbsolutePath()).collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<String> pathImages = Arrays.stream(Objects.requireNonNull(new File(large + "/many_pages/").listFiles())).map(File::getAbsolutePath).collect(Collectors.toCollection(ArrayList::new));
         ArrayList<Image> images = refac.generateImages(pathImages);
         List<AnnotateImageRequest>requests = refac.bulkGeneratePngRequest(images,Feature.newBuilder().setType(Feature.Type.DOCUMENT_TEXT_DETECTION).build() );
         long startTime = System.currentTimeMillis();
@@ -257,8 +257,7 @@ public class PerformanceTests {
 
     @Test
     public void testFileOverThresholdGVPagesInOrder() throws IOException {
-        ArrayList<String> pathImages = new ArrayList<>();
-        pathImages.addAll(Arrays.stream(new File(large + "/large_1/").listFiles()).map(x -> x.getAbsolutePath()).collect(Collectors.toCollection(ArrayList::new)));
+        ArrayList<String> pathImages = Arrays.stream(Objects.requireNonNull(new File(large + "/large_1/").listFiles())).map(File::getAbsolutePath).collect(Collectors.toCollection(ArrayList::new));
         Document document = refac.generateDocument(pathImages,"test_doc");
         assert(document.getPages().size() == 3);
         for (int i=0; i<document.getPages().size(); i++){
@@ -272,8 +271,8 @@ public class PerformanceTests {
 
     @Test
     public void testImageCreationMaintainsOrder() throws IOException {
-        ArrayList<String> pathImages = new ArrayList<>();
-        pathImages.addAll(Arrays.stream(new File(large + "/many_pages/").listFiles()).map(x -> x.getAbsolutePath()).collect(Collectors.toCollection(ArrayList::new)).subList(0,50));
+        ArrayList<String> pathImages = new ArrayList<>(
+            Arrays.stream(Objects.requireNonNull(new File(large + "/many_pages/").listFiles())).map(File::getAbsolutePath).collect(Collectors.toCollection(ArrayList::new)).subList(0, 50));
         Document document = refac.generateDocument(pathImages,"test_doc");
         assert(document.getPages().size() == 50);
         for (int i=0; i<document.getPages().size(); i++){
@@ -295,9 +294,9 @@ public class PerformanceTests {
             config.goodnessOfFit = ".999";
             extractLines = new ExtractLines(config);
             int averageTime = 0;
-            for (File file : large.toAbsolutePath().toFile().listFiles()) {
+            for (File file : Objects.requireNonNull(large.toAbsolutePath().toFile().listFiles())) {
                 ArrayList<String> sortedImageArray = new ArrayList<>();
-                for (File img : file.listFiles()) {
+                for (File img : Objects.requireNonNull(file.listFiles())) {
                     sortedImageArray.add(img.getAbsolutePath());
                 }
                 MetaData document = new MetaData();
@@ -311,7 +310,7 @@ public class PerformanceTests {
                 averageTime += endTime - startTime;
                 System.out.println( "Average time taken for : " + file.getName() + "  "+(endTime - startTime));;
             }
-            System.out.println("Average gv processing time " + averageTime /  large.toAbsolutePath().toFile().listFiles().length);
+            System.out.println("Average gv processing time " + averageTime /  Objects.requireNonNull(large.toAbsolutePath().toFile().listFiles()).length);
 
         }
 
@@ -328,7 +327,7 @@ public class PerformanceTests {
         // This file contains 8 blanks
         Path problemFiles = Paths.get("src","test","resources","prd_images_98373");
             ArrayList<String> sortedImageArray = new ArrayList<>();
-            for (File img : problemFiles.toAbsolutePath().toFile().listFiles()) {
+            for (File img : Objects.requireNonNull(problemFiles.toAbsolutePath().toFile().listFiles())) {
                 sortedImageArray.add(img.getAbsolutePath());
             }
             MetaData document = new MetaData();
